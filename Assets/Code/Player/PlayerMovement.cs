@@ -14,7 +14,7 @@ public class PlayerMovement
     // Verticle movement variables
     private float groundY;
     private int jumpFrame = 0;
-    private int jumpFrameApex = 30;
+    private int jumpFrameApex = 40;
     private int jumpMax = 1;
     private int jumpsLeft;
 
