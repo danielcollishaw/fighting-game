@@ -1,4 +1,4 @@
-# RSO APP
+# Fighting Game
 
 This project was created initially as a school project. The project is a fighting game with several characters and stages.
 
