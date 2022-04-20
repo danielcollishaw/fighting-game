@@ -25,10 +25,10 @@ Once cloned, run unity and add this project to your unity hub.
 
 ## Authors
 
-  - **Daniel Collishaw** - *Developer* -
-  - **Kyle Neilson** - *Developer* -
-  - **Collin Crimmins** - *Developer* -
-  - **Dylan Greenhalgh** - *Developer* -
+  - **Daniel Collishaw** - *Lead Progammer* -
+  - **Kyle Neilson** - *Concept Designer* -
+  - **Collin Crimmins** - *Concept Designer* -
+  - **Dylan Greenhalgh** - *Concept Designer* -
 
 See also the list of
 [contributors](https://github.com/danielcollishaw/rso-app.git/contributors)
