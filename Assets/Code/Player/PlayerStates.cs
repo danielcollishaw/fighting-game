@@ -12,6 +12,7 @@ public class PlayerStates
   private bool jumping = false;
   private bool attacking = false;
   private bool special = false;
+  private bool dead = false;
 
   public void setIdle(bool state)
   {
@@ -48,6 +49,11 @@ public class PlayerStates
     return this.special;
   }
 
+  public void setDead(bool state)
+  {
+    this.dead = state;
+  }
+
   public void setAnimator(Animator animator)
   {
     animator.SetBool("idle", this.idle);
@@ -55,19 +61,21 @@ public class PlayerStates
     animator.SetBool("jumping", this.jumping);
     animator.SetBool("attacking", this.attacking);
     animator.SetBool("special", this.special);
+    animator.SetBool("dead", this.dead);
 
     if (this.attacking)
-      updateAttack(animator, 1);
-    else if (this.special)
-      updateAttack(animator, 2);
+      updateAttack(animator, false);
+    else
+      updateAttack(animator, true);
   }
 
-  private void updateAttack(Animator animator, int attack)
+
+  private void updateAttack(Animator animator, bool isSpecial)
   {
-    bool temp = animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
-    if (attack == 1)
-      this.attacking = temp;
-    else if (attack == 2)
-      this.special = temp;
+    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+      if (!isSpecial)
+        this.attacking = false;
+      else
+        this.special = false;
   }
 }

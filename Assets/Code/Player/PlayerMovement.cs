@@ -1,5 +1,5 @@
 // Written by Daniel Collishaw
-// This is class handles movement script for game object based on mapping
+// This class handles movement script for game object based on mapping
 
 using System.Collections;
 using System.Collections.Generic;
@@ -7,22 +7,38 @@ using UnityEngine;
 
 public class PlayerMovement
 {
+    // Map bounds
+    private const int LEFT_BOUND = -10;
+    private const int RIGHT_BOUND = 10;
+
     // Horizontal movement variables
     private float playerSpeed = 5f;
     private float dashMult = 35f;
+    private float dashRate = 0.5f;
+    private float nextDashTime = 0f;
 
     // Verticle movement variables
     private float groundY;
     private int jumpFrame = 0;
-    private int jumpFrameApex = 40;
+    private int jumpFrameApex = 30;
     private int jumpMax = 1;
     private int jumpsLeft;
 
-    // Start is called once
-    public void defineGround(GameObject gameObject)
+    // Other player
+    private GameObject otherPlayer;
+    private bool facingRight = true;
+
+    public PlayerMovement(GameObject gameObject, CharacterStats stats)
     {
       // Initialize the ground boundary based on starting character position
       this.groundY = gameObject.transform.position.y;
+
+      // Set multipliers
+      playerSpeed = stats.getSpeed();
+      dashMult = stats.getDashMult();
+
+      // Find other player
+      otherPlayer = GameObject.Find("playerTwo");
     }
 
     // Main function of class that deals with player movement
@@ -54,13 +70,17 @@ public class PlayerMovement
         states.setRunning(false);
         states.setIdle(true);
       }
-      if (Input.GetKeyDown(map.getDash()))
+      if (Time.time >= nextDashTime)
       {
-        dash = this.dashMult;
+        if (Input.GetKeyDown(map.getDash()))
+        {
+          dash = this.dashMult;
+          // Applying a cooldown to dashing
+          nextDashTime = Time.time + 1f / dashRate;
+        }
       }
       if(Input.GetKeyDown(map.getJump()) && jumpsLeft > 0)
       {
-        Debug.Log("Jumped");
         jumpFrame = 1;
         jumpsLeft--;
         states.setJumping(true);
@@ -92,5 +112,34 @@ public class PlayerMovement
       {
         gameObject.transform.position -= moveVertical * this.playerSpeed * 1.5f * Time.deltaTime;
       }
+
+      // Wall boundry
+      if (gameObject.transform.position.x < LEFT_BOUND)
+        gameObject.transform.position = new Vector3(LEFT_BOUND, gameObject.transform.position.y,
+                                                    gameObject.transform.position.z);
+      else if (gameObject.transform.position.x > RIGHT_BOUND)
+        gameObject.transform.position = new Vector3(RIGHT_BOUND, gameObject.transform.position.y,
+                                                    gameObject.transform.position.z);
+
+      if (facingRight && gameObject.transform.position.x > otherPlayer.transform.position.x)
+      {
+        flipPlayers(gameObject);
+        facingRight = false;
+      }
+      else if (!facingRight && otherPlayer.transform.position.x > gameObject.transform.position.x)
+      {
+        flipPlayers(gameObject);
+        facingRight = true;
+      }
+    }
+
+    private void flipPlayers(GameObject gameObject)
+    {
+      Vector3 scale1 = gameObject.transform.localScale;
+      Vector3 scale2 = otherPlayer.transform.localScale;
+      scale1.x *= - 1;
+      scale2.x *= -1;
+      gameObject.transform.localScale = scale1;
+      otherPlayer.transform.localScale = scale2;
     }
 }
