@@ -9,7 +9,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     [SerializeField]
-    public static float timeRemaining = 30;
+    public static float timeRemaining = 45;
 
     private GameObject player1;
     private GameObject player2;
@@ -19,6 +19,7 @@ public class Timer : MonoBehaviour
     {
       player1 = GameObject.Find("playerOne");
       player2 = GameObject.Find("playerTwo");
+      timeRemaining = 45;
     }
 
     // Update is called once per frame
