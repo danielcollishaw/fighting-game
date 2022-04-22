@@ -794,4 +794,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Controls.unity
   - Assets/Scenes/Menu.unity
   - Assets/Scenes/Game.unity
-  playerPath: /Users/daniel/Downloads/FutureFighters.exe/FightingGame.exe
+  playerPath: /Users/daniel/Developer/Unity/FightingGame/Builds/FutureFighters/FightingGame.exe
