@@ -17,7 +17,13 @@ Start by cloning the repository onto your system.
 ```
 git clone https://github.com/danielcollishaw/fighting-game.git
 ```
-Once cloned, run unity and add this project to your unity hub.
+Once cloned, run Unity and add this project to your Unity Hub.
+
+Once you open the Unity project select file and then build settings.
+Choose the appropraite build settings for you system architecture.
+Once you are done with settings, build the app.
+
+You should now have a copy on your system.
 
 ## Built With
 
