@@ -27,6 +27,7 @@ public class PlayerMovement
     // Other player
     private GameObject otherPlayer;
     private bool facingRight = true;
+    private AudioSource dashFX;
 
     public PlayerMovement(GameObject gameObject, CharacterStats stats)
     {
@@ -39,6 +40,7 @@ public class PlayerMovement
 
       // Find other player
       otherPlayer = GameObject.Find("playerTwo");
+      dashFX = GameObject.Find("dashFX").GetComponent<AudioSource>();
     }
 
     // Main function of class that deals with player movement
@@ -74,6 +76,7 @@ public class PlayerMovement
       {
         if (Input.GetKeyDown(map.getDash()))
         {
+          dashFX.Play();
           dash = this.dashMult;
           // Applying a cooldown to dashing
           nextDashTime = Time.time + 1f / dashRate;

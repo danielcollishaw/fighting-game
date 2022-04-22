@@ -21,6 +21,9 @@ public class PlayerAttack
 
     private float nextAttackTime = 0f;
 
+    private AudioSource attAudio;
+    private AudioSource spcAudio;
+
     public PlayerAttack(GameObject gameObject, CharacterStats stats)
     {
       player = gameObject.transform;
@@ -32,6 +35,9 @@ public class PlayerAttack
       specialDmg = stats.getSpecialDmg();
       attackRate = stats.getAttackRate();
       specialRate = stats.getSpecialRate();
+
+      attAudio = GameObject.Find("attackFX").GetComponent<AudioSource>();
+      spcAudio = GameObject.Find("specialFX").GetComponent<AudioSource>();
     }
 
     public void calcAttack(PlayerStates states, PlayerControlMap map, GameObject gameObject)
@@ -42,14 +48,18 @@ public class PlayerAttack
         {
           states.setAttacking(true);
           attack(attackDmg, attackRange);
+          attAudio.Play();
+
           // Applying a cooldown effect
           nextAttackTime = Time.time + 1f / attackRate;
         }
-
+        
         if (Input.GetKeyDown(map.getSpecial()))
         {
           states.setSpecial(true);
           attack(specialDmg, attackRange);
+          spcAudio.Play();
+
           // Applying a cooldown effect
           nextAttackTime = Time.time + 1f / specialRate;
         }

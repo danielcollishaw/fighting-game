@@ -1,4 +1,7 @@
-﻿using System.Collections;
+// Written by Daniel Collishaw
+// This class handles victory and timing conditions
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -6,7 +9,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     [SerializeField]
-    private float timeRemaining = 30;
+    public static float timeRemaining = 30;
 
     private GameObject player1;
     private GameObject player2;
@@ -33,23 +36,37 @@ public class Timer : MonoBehaviour
       if (timeRemaining > 0)
       {
         timeRemaining -= Time.deltaTime;
+        gameObject.GetComponent<Text>().text = Mathf.Ceil(timeRemaining).ToString();
       }
       else
       {
-        // Time ran out highest dmg dealt wins
-        if (hp1 / hp1Max > hp2 / hp2Max)
+        if (timeRemaining > -10)
         {
-          Debug.Log("player one wins");
-        }
-        else if (hp1 / hp1Max < hp2 / hp2Max)
-        {
-          Debug.Log("player two wins");
-        }
-        else
-        {
-          Debug.Log("draw");
+          Text overlay = GameObject.Find("overScreen").GetComponent<Text>();
+          // Time ran out highest dmg dealt wins
+          if (hp1 / hp1Max > hp2 / hp2Max)
+          {
+            overlay.text = "Player one wins!";
+          }
+          else if (hp1 / hp1Max < hp2 / hp2Max)
+          {
+            overlay.text = "Player two wins!";
+          }
+          else
+          {
+            overlay.text = "It's a draw!";
+          }
+
+
+          StartCoroutine(waitSceneChange());
+          timeRemaining = -500;
         }
       }
-      gameObject.GetComponent<Text>().text = Mathf.Ceil(timeRemaining).ToString();
+    }
+
+    IEnumerator waitSceneChange()
+    {
+      yield return new WaitForSeconds(5);
+      UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
     }
 }

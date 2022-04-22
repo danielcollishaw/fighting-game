@@ -31,6 +31,11 @@ public class PlayerMain : MonoBehaviour
     // Start initializes needed values for each component class
     void Start()
     {
+      if (playerNum == '1')
+        character = Menu.Character1Selection;
+      else
+        character = Menu.Character2Selection;
+
       // quick bug fix for wizard scaling
       if (character == "wizard")
         gameObject.transform.localScale = new Vector3(3, 3, 1);
